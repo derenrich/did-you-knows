@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Did You Know?</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-nord.css"
+        integrity="sha512-hsKycmJmiBoB7d/g1dce3NLR1Zt9zH3nRNf/bi0XMc44pO4s6pEP6sVm7no3LtrMcXUj5yUON6iMWRXmH6VoUg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script type="module">
+        import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js';
+
+
+        class DYK extends LitElement {
+            static properties = {
+                name: { type: String },
+                dyk: { type: String },
+                imgUrl: { type: String },
+            };
+            static styles = css`
+            .dyk-thumb {
+                float: right;
+            }
+            .card :first-child {
+                background-color: #CEE0F2 ;
+            }
+            `;
+
+            render() {
+                return html`
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-nord.css"
+        integrity="sha512-hsKycmJmiBoB7d/g1dce3NLR1Zt9zH3nRNf/bi0XMc44pO4s6pEP6sVm7no3LtrMcXUj5yUON6iMWRXmH6VoUg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+                    <div class="card large dyk-card">
+                        <div class="section">
+                            <h1>${this.name}</h1>
+                        </div>
+                        <div class="section">
+                            <img class="dyk-thumb" width="100px" src="${this.imgUrl}" alt="random image" />
+                            <p>${this.dyk}</p>
+                        </div>
+                    </div>
+            `;
+            }
+        }
+        customElements.define('dyk-card', DYK);
+    </script>
+    <style>
+        .dyk-header {
+            text-align: center;
+            margin-bottom: 1em;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2em;
+        }
+
+        .main {
+            padding: 2em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container main">
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+                <h1 class="dyk-header">Did You Know?</h1>
+            </div>
+        </div>
+        <div class="row">
+            <dyk-card name="Stenka Razin" class="col-sm-3"
+                dyk="... that the first Russian feature film, Stenka Razin (poster pictured), depicts the historical Cossack leader throwing a princess into the Volga?"
+                imgUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Razin_film.jpg/402px-Razin_film.jpg"></dyk-card>
+            <dyk-card name="John Schrank" class="col-sm-3"
+                dyk="... that would-be assassin John Schrank was foiled by a 50-page speech and a spectacles case?"
+                imgUrl="https://upload.wikimedia.org/wikipedia/commons/b/be/Photo_of_John_Schrank%2C_the_man_who_shot_Teddy_Roosevelt.webp" /></dyk-card>
+            <dyk-card name="Stenka Razin" class="col-sm-3"
+                dyk="... that the first Russian feature film, Stenka Razin (poster pictured), depicts the historical Cossack leader throwing a princess into the Volga?"
+                imgUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Razin_film.jpg/402px-Razin_film.jpg"></dyk-card>
+            <dyk-card name="John Schrank" class="col-sm-3"
+                dyk="... that would-be assassin John Schrank was foiled by a 50-page speech and a spectacles case?"
+                imgUrl="https://upload.wikimedia.org/wikipedia/commons/b/be/Photo_of_John_Schrank%2C_the_man_who_shot_Teddy_Roosevelt.webp" /></dyk-card>
+            <dyk-card name="Stenka Razin" class="col-sm-3"
+                dyk="... that the first Russian feature film, Stenka Razin (poster pictured), depicts the historical Cossack leader throwing a princess into the Volga?"
+                imgUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Razin_film.jpg/402px-Razin_film.jpg"></dyk-card>
+            <dyk-card name="John Schrank" class="col-sm-3"
+                dyk="... that would-be assassin John Schrank was foiled by a 50-page speech and a spectacles case?"
+                imgUrl="https://upload.wikimedia.org/wikipedia/commons/b/be/Photo_of_John_Schrank%2C_the_man_who_shot_Teddy_Roosevelt.webp" /></dyk-card>
+            <dyk-card name="Stenka Razin" class="col-sm-3"
+                dyk="... that the first Russian feature film, Stenka Razin (poster pictured), depicts the historical Cossack leader throwing a princess into the Volga?"
+                imgUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Razin_film.jpg/402px-Razin_film.jpg"></dyk-card>
+            <dyk-card name="John Schrank" class="col-sm-3"
+                dyk="... that would-be assassin John Schrank was foiled by a 50-page speech and a spectacles case?"
+                imgUrl="https://upload.wikimedia.org/wikipedia/commons/b/be/Photo_of_John_Schrank%2C_the_man_who_shot_Teddy_Roosevelt.webp" /></dyk-card>
+
+        </div>
+    </div>
+    <footer>
+        <p>source available on <a href="https://github.com/derenrich/did-you-knows">github</a></p>
+    </footer>
+</body>
+
+</html>
