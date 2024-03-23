@@ -10,6 +10,10 @@ packages = [{ include = "did_you_knows" }]
 python = "^3.11"
 fastapi = "^0.109.2"
 uvicorn = { extras = ["standard"], version = "^0.27.1" }
+sqlalchemy = "^2.0.28"
+alembic = "^1.13.1"
+sqlmodel = "^0.0.16"
+httpx = "^0.27.0"
 
 
 [build-system]
