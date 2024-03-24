@@ -20,7 +20,8 @@ const variants = {
         return {
             zIndex: 0,
             x: direction < 0 ? 500 : -500,
-            opacity: 0
+            opacity: 0,
+            position: "absolute"
         };
     }
 };
@@ -54,8 +55,8 @@ export function Swiper({ children }) {
                         opacity: { duration: 0.2 }
                     }}
                     drag="x"
-                    //dragConstraints={{ left: 0, right: 0 }}
-                    //dragElastic={0.3}
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.3}
                     onDragEnd={(e, { offset, velocity }) => {
                         const swipe = swipePower(offset.x, velocity.x);
 
@@ -65,8 +66,6 @@ export function Swiper({ children }) {
                             paginate(-1);
                         }
                     }}
-                    justifyContent="center"
-                    display="flex"
                 >
                     {children[index]}
                 </motion.div>

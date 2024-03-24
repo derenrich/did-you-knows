@@ -46,7 +46,11 @@ function App() {
                     <Heading variant="title">Did you know...?</Heading>
                 </Center>
 
-                <Swiper children={hooks.map(hook => <HookCard hook={hook.hook_text} />)} />
+                <Box display="flex" justifyContent="center">
+                    <Box position="relative">
+                        <Swiper children={hooks.map(hook => <HookCard hook={hook.hook_text} />)} />
+                    </Box>
+                </Box>
             </ChakraProvider>
         </React.Fragment>
     );
