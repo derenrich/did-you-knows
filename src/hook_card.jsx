@@ -7,14 +7,14 @@ function randomBackgroundGradient() {
     // random angle
     const angle = Math.floor(Math.random() * 360);
     // random color 1
-    const r1 = Math.floor(Math.random() * 256);
-    const g1 = Math.floor(Math.random() * 256);
-    const b1 = Math.floor(Math.random() * 256);
+    const r1 = Math.floor(Math.random() * 180) + 80;
+    const g1 = Math.floor(Math.random() * 180) + 80;
+    const b1 = Math.floor(Math.random() * 180) + 80;
 
     // random color 2
-    const r2 = Math.floor(Math.random() * 256);
-    const g2 = Math.floor(Math.random() * 256);
-    const b2 = Math.floor(Math.random() * 256);
+    const r2 = Math.floor(Math.random() * 180) + 80;
+    const g2 = Math.floor(Math.random() * 180) + 80;
+    const b2 = Math.floor(Math.random() * 180) + 80;
 
     return `linear-gradient(${angle}deg, rgb(${r1}, ${g1}, ${b1}), rgb(${r2}, ${g2}, ${b2}))`;
 }

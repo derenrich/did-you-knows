@@ -31,10 +31,14 @@ const swipePower = (offset, velocity) => {
     return Math.abs(offset) * velocity;
 };
 
-export function Swiper({ children }) {
+export function Swiper({ children, fetchMore }) {
     const [[page, direction], setPage] = useState([0, 0]);
 
     const index = wrap(0, children.length, page);
+
+    if (page === children.length - 1) {
+        fetchMore();
+    }
 
     const paginate = (newDirection) => {
         setPage([page + newDirection, newDirection]);

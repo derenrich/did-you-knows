@@ -30,6 +30,12 @@ function App() {
         setIndex(index + 1);
     }
 
+    async function getMoreHooks() {
+        console.log("getting...");
+        let moreHooks = await getHooks();
+        setHooks([...hooks, ...moreHooks]);
+    }
+
     useEffect(() => {
         getHooks().then(hooks => {
             setHooks(hooks);
@@ -48,7 +54,7 @@ function App() {
 
                 <Box display="flex" justifyContent="center">
                     <Box position="relative">
-                        <Swiper children={hooks.map(hook => <HookCard title={hook.title} hook={hook.hook_text} />)} />
+                        <Swiper fetchMore={getMoreHooks} children={hooks.map(hook => <HookCard key={hook.id} title={hook.title} hook={hook.hook_text} />)} />
                     </Box>
                 </Box>
             </ChakraProvider>
