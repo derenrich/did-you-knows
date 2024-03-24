@@ -12,7 +12,7 @@ import { Swiper } from './swiper.jsx'
 
 
 //const REST_API_URL = 'http://localhost:8000/api';
-const REST_API_URL = "";
+const REST_API_URL = "/api";
 
 async function getHooks() {
     let hooks = await fetch(`${REST_API_URL}/random_hooks/10`);

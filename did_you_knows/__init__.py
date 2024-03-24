@@ -1,6 +1,7 @@
 from datetime import date
 from typing import Annotated
 from importlib import resources as impresources
+import pathlib
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
@@ -62,11 +63,12 @@ async def get_images(page_ids: list[int], client: HttpClient):
 
 
 STATIC_FOLDER = impresources.files("did_you_knows").joinpath("static")
+DIST_FOLDER = pathlib.Path("dist")
 
 
 @app.get("/")
 async def root():
-    with STATIC_FOLDER.joinpath("index.html").open('r') as f:
+    with DIST_FOLDER.joinpath("index.html").open('r') as f:
         return HTMLResponse(content=f.read(), status_code=200)
 
-app.mount("/static", StaticFiles(directory=STATIC_FOLDER), name="static")
+app.mount("/", StaticFiles(directory=DIST_FOLDER), name="dist")
