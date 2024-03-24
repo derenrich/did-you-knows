@@ -48,7 +48,7 @@ function App() {
 
                 <Box display="flex" justifyContent="center">
                     <Box position="relative">
-                        <Swiper children={hooks.map(hook => <HookCard hook={hook.hook_text} />)} />
+                        <Swiper children={hooks.map(hook => <HookCard title={hook.title} hook={hook.hook_text} />)} />
                     </Box>
                 </Box>
             </ChakraProvider>
