@@ -7,7 +7,7 @@ const variants = {
 
     enter: (direction) => {
         return {
-            x: direction > 0 ? 500 : -500,
+            x: direction > 0 ? 300 : -300,
             opacity: 0
         };
     },
@@ -19,14 +19,14 @@ const variants = {
     exit: (direction) => {
         return {
             zIndex: 0,
-            x: direction < 0 ? 500 : -500,
+            x: direction < 0 ? 300 : -300,
             opacity: 0,
             position: "absolute"
         };
     }
 };
 
-const swipeConfidenceThreshold = 10000;
+const swipeConfidenceThreshold = 8000;
 const swipePower = (offset, velocity) => {
     return Math.abs(offset) * velocity;
 };
@@ -55,7 +55,7 @@ export function Swiper({ children, fetchMore }) {
                     animate="center"
                     exit="exit"
                     transition={{
-                        x: { type: "spring", stiffness: 300, damping: 10 },
+                        x: { type: "spring", stiffness: 400, damping: 13 },
                         opacity: { duration: 0.2 }
                     }}
                     drag="x"

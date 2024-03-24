@@ -40,12 +40,12 @@ function App() {
                 <LogoBox>
                     <Image width="100%" src="https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg" alt="Wikipedia logo" />
                 </LogoBox>
-                <Center bg='#eaecf0' h='100px' color='black' opacity="90%">
+                <Center bg='#eaecf0' h={['60px', '70px', '100px']} color='black' opacity="90%">
                     <Heading variant="title">Did you know...?</Heading>
                 </Center>
 
-                <Box display="flex" justifyContent="center">
-                    <Box position="relative">
+                <Box display="flex" justifyContent="center" m={0} p={0}>
+                    <Box position="relative" m={0} p={0}>
                         <Swiper fetchMore={getMoreHooks} children={hooks.map(hook => <HookCard key={hook.id} title={hook.title} hook={hook.hook_text} />)} />
                     </Box>
                 </Box>

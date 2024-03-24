@@ -23,7 +23,7 @@ export function HookCard({ hook, title }) {
     // linear(to-r, green.200, pink.500)
     return (
         <>
-            <Box position="relative" display="flex" flexDirection="column" justifyContent="space-between" p={8} m={8} borderRadius='10px' width='35em ' minH='80vh' overflow='hidden' bgGradient={randomBackgroundGradient()} >
+            <Box position="relative" display="flex" flexDirection="column" justifyContent="space-between" p={[1, 3, 8]} m={[0, 0, 8]} borderRadius='10px' width='35em ' minH='80vh' overflow='hidden' bgGradient={randomBackgroundGradient()} >
                 <Heading pt={'2em'}>
                     {hook}
                 </Heading>
