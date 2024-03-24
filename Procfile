@@ -1,1 +1,1 @@
-web: uvicorn --host 0.0.0.0 --workers 4 did_you_knows:app
+python-web: uvicorn --host 0.0.0.0 --workers 4 did_you_knows:app
