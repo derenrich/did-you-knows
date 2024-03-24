@@ -11,24 +11,16 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { Swiper } from './swiper.jsx'
 
 
+//const REST_API_URL = 'http://localhost:8000/api';
+const REST_API_URL = "";
+
 async function getHooks() {
-    let hooks = await fetch('http://localhost:8000/api/random_hooks/10');
+    let hooks = await fetch(`${REST_API_URL}/random_hooks/10`);
     return hooks.json();
 }
 
 function App() {
-
     const [hooks, setHooks] = useState([]);
-    const [index, setIndex] = useState(0);
-
-    function prevHook() {
-        setIndex(index - 1);
-    }
-
-
-    function nextHook() {
-        setIndex(index + 1);
-    }
 
     async function getMoreHooks() {
         console.log("getting...");
