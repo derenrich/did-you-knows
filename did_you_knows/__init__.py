@@ -2,6 +2,7 @@ from datetime import date
 from typing import Annotated
 from importlib import resources as impresources
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from sqlmodel import Session
@@ -25,6 +26,14 @@ async def get_http_client():
 HttpClient = Annotated[httpx.AsyncClient, Depends(get_http_client)]
 
 app = FastAPI()
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8000", "http://localhost:8080", "http://localhost:1234"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/api/hook/{hook_id}", response_model=database.Hook)

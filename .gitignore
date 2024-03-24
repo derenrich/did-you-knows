@@ -1,3 +1,6 @@
 *~
 *.pyc
 keys.sh
+node_modules
+.parcel-cache/
+dist
