@@ -1,7 +1,10 @@
-import { Box, Box, Heading, Button } from '@chakra-ui/react'
+import { Box, Box, Heading, Button, Image } from '@chakra-ui/react'
 import { IconButton } from '@chakra-ui/react'
 import { StarIcon, LinkIcon } from '@chakra-ui/icons'
 
+function prettyTitle(title) {
+    return title.replace(/_/g, " ");
+}
 
 function randomBackgroundGradient() {
     // random angle
@@ -20,26 +23,30 @@ function randomBackgroundGradient() {
 }
 
 export function HookCard({ hook, title }) {
-    // linear(to-r, green.200, pink.500)
+    let url = "https://en.wikipedia.org/wiki/" + title;
     return (
         <>
             <Box position="relative" display="flex" flexDirection="column" justifyContent="space-between" p={[1, 3, 8]} m={[0, 0, 8]} borderRadius='10px' width='35em ' minH='80vh' overflow='hidden' bgGradient={randomBackgroundGradient()} >
-                <Heading pt={'2em'}>
+                <Heading pt={'0.5em'} fontSize={["x-large", "xx-large", "xxx-large"]}>
                     {hook}
                 </Heading>
                 <Box display="flex" flexDirection="row" justifyContent="space-between" >
-                    <Button p='1em' m='1em' width="10em" bgColor='wikimedia.500' opacity={0.8} borderRadius='10px'>
-                        <a display="block" href={"https://en.wikipedia.org/wiki/" + title}>
+                    <Button onClick={() => { location.href = url; }} p='1em' m='1em' bgColor='wikimedia.500' opacity={0.8} borderRadius='10px'>
+                        <Image position="relative" left="-2em" width="100%" src="https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg" alt="Wikipedia logo" />
+
+                        <a display="block" href={url}>
                             Learn more about <br />
-                            <strong>{title}</strong>
+                            <strong>{prettyTitle(title)}</strong>
                         </a>
                     </Button>
+                    {/*
                     <Box marginLeft="auto" marginTop={"auto"} width="fit-content">
                         <Box p='1em' m='1em' borderRadius='10px' bgColor='wikimedia.500' opacity={0.8}>
                             <IconButton icon={<StarIcon />} colorScheme="green" aria-label="Like" mr={2} />
                             <IconButton icon={<LinkIcon />} colorScheme="blue" aria-label="Share" />
                         </Box>
                     </Box>
+                    */}
                 </Box>
             </Box >
         </>
