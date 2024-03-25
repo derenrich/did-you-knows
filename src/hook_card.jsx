@@ -3,7 +3,14 @@ import { IconButton } from '@chakra-ui/react'
 import { StarIcon, LinkIcon } from '@chakra-ui/icons'
 
 function prettyTitle(title) {
-    return title.replace(/_/g, " ");
+    const MAX_TITLE_LENGTH = 40;
+    const prettyTitle = title.replace(/_/g, " ");
+    if (prettyTitle.length > MAX_TITLE_LENGTH) {
+        return prettyTitle.substring(0, MAX_TITLE_LENGTH) + "...";
+    } else {
+        return prettyTitle;
+
+    }
 }
 
 function randomBackgroundGradient() {

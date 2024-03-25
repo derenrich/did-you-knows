@@ -31,7 +31,7 @@ const swipePower = (offset, velocity) => {
     return Math.abs(offset) * velocity;
 };
 
-export function Swiper({ children, fetchMore }) {
+export function Swiper({ children, fetchMore, slugs }) {
     const [[page, direction], setPage] = useState([0, 0]);
 
     const index = wrap(0, children.length, page);
@@ -47,6 +47,9 @@ export function Swiper({ children, fetchMore }) {
         fetchMore();
     }
 
+    if (slugs.length > 0) {
+        window.location.replace('#' + slugs[index]);
+    }
     const handleKey = (evt) => {
         if (evt.key === 'ArrowRight') {
             paginate(1);

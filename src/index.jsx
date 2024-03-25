@@ -11,12 +11,22 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { Swiper } from './swiper.jsx'
 
 
+function slugify(slug) {
+    //replace non-alphanumeric characters with hyphens and lowercase
+    return slug.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
+}
+
 //const REST_API_URL = 'http://localhost:8000/api';
 const REST_API_URL = "/api";
 
 async function getHooks() {
     let hooks = await fetch(`${REST_API_URL}/random_hooks/10`);
     return hooks.json();
+}
+
+async function getHook(id) {
+    let hook = await fetch(`${REST_API_URL}/hook/${id}`);
+    return hook.json();
 }
 
 function App() {
@@ -29,10 +39,28 @@ function App() {
     }
 
     useEffect(() => {
-        getHooks().then(hooks => {
-            setHooks(hooks);
-        });
+
+        // check location hash to see if we need to start at a specific hook
+        if (window.location.hash) {
+            const hash = window.location.hash.slice(1);
+            const parsedHash = hash.split('/', 2);
+            if (parsedHash.length === 2) {
+                const id = parseInt(parsedHash[0]);
+                getHook(id).then(hook => {
+                    setHooks([hook]);
+                    getMoreHooks();
+                });
+
+            }
+        } else {
+            getHooks().then(hooks => {
+                setHooks(hooks);
+            });
+        }
     }, []);
+
+    const slugs = hooks.map(hook => `${hook.id}/${slugify(hook.slug)}`);
+    const cards = hooks.map(hook => <HookCard key={hook.id} title={hook.title} hook={hook.hook_text} />);
 
     return (
         <React.Fragment>
@@ -46,7 +74,7 @@ function App() {
 
                 <Box display="flex" justifyContent="center" m={0} p={0}>
                     <Box position="relative" m={0} p={0}>
-                        <Swiper fetchMore={getMoreHooks} children={hooks.map(hook => <HookCard key={hook.id} title={hook.title} hook={hook.hook_text} />)} />
+                        <Swiper fetchMore={getMoreHooks} slugs={slugs} children={cards} />
                     </Box>
                 </Box>
             </ChakraProvider>
