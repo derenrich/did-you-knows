@@ -1,6 +1,6 @@
 import { Box, Box, Heading, Button, Image } from '@chakra-ui/react'
-import { IconButton } from '@chakra-ui/react'
-import { StarIcon, LinkIcon } from '@chakra-ui/icons'
+import { Random, MersenneTwister19937 } from "random-js";
+
 
 function prettyTitle(title) {
     const MAX_TITLE_LENGTH = 40;
@@ -13,18 +13,23 @@ function prettyTitle(title) {
     }
 }
 
-function randomBackgroundGradient() {
+const hashCode = s => s.split('').reduce((a, b) => (((a << 5) - a) + b.charCodeAt(0)) | 0, 0)
+
+
+function randomBackgroundGradient(hook) {
+    const random = new Random(MersenneTwister19937.seed(hashCode(hook)));
+
     // random angle
-    const angle = Math.floor(Math.random() * 360);
+    const angle = random.integer(0, 360);
     // random color 1
-    const r1 = Math.floor(Math.random() * 180) + 80;
-    const g1 = Math.floor(Math.random() * 180) + 80;
-    const b1 = Math.floor(Math.random() * 180) + 80;
+    const r1 = random.integer(80, 255);
+    const g1 = random.integer(80, 255);
+    const b1 = random.integer(80, 255);
 
     // random color 2
-    const r2 = Math.floor(Math.random() * 180) + 80;
-    const g2 = Math.floor(Math.random() * 180) + 80;
-    const b2 = Math.floor(Math.random() * 180) + 80;
+    const r2 = random.integer(80, 255);
+    const g2 = random.integer(80, 255);
+    const b2 = random.integer(80, 255);
 
     return `linear-gradient(${angle}deg, rgb(${r1}, ${g1}, ${b1}), rgb(${r2}, ${g2}, ${b2}))`;
 }
@@ -33,7 +38,7 @@ export function HookCard({ hook, title }) {
     let url = "https://en.wikipedia.org/wiki/" + title;
     return (
         <>
-            <Box position="relative" display="flex" flexDirection="column" justifyContent="space-between" p={[1, 3, 8]} m={[0, 0, 8]} borderRadius='10px' width='35em ' minH='80vh' overflow='hidden' bgGradient={randomBackgroundGradient()} >
+            <Box position="relative" display="flex" flexDirection="column" justifyContent="space-between" p={[1, 3, 8]} m={[0, 0, 8]} borderRadius='10px' width='35em ' minH='80vh' overflow='hidden' bgGradient={randomBackgroundGradient(hook)} >
                 <Heading pt={'0.5em'} fontSize={["x-large", "xx-large", "xxx-large"]}>
                     {hook}
                 </Heading>

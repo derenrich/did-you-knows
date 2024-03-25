@@ -35,7 +35,9 @@ function App() {
     async function getMoreHooks() {
         console.log("getting...");
         let moreHooks = await getHooks();
-        setHooks([...hooks, ...moreHooks]);
+        setHooks((hooks) => {
+            return [...hooks, ...moreHooks];
+        });
     }
 
     useEffect(() => {
