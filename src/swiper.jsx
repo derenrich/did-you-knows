@@ -34,21 +34,23 @@ const swipePower = (offset, velocity) => {
 export function Swiper({ children, fetchMore, slugs }) {
     const [[page, direction], setPage] = useState([0, 0]);
 
-    const index = wrap(0, children.length, page);
-
-
     const paginate = (newDirection) => {
         setPage((pageState) => {
-            return [pageState[0] + newDirection, newDirection];
+            const page = pageState[0];
+            if (page + newDirection > 0 && page + newDirection < children.length) {
+                return [pageState[0] + newDirection, newDirection];
+            } else {
+                return pageState;
+            }
         });
     };
 
-    if (index === children.length - 1) {
+    if (page === children.length - 1) {
         fetchMore();
     }
 
     if (slugs.length > 0) {
-        window.location.replace('#' + slugs[index]);
+        window.location.replace('#' + slugs[page]);
     }
     const handleKey = (evt) => {
         if (evt.key === 'ArrowRight') {
@@ -92,7 +94,7 @@ export function Swiper({ children, fetchMore, slugs }) {
                         }
                     }}
                 >
-                    {children[index]}
+                    {children[page]}
                 </motion.div>
             </AnimatePresence>
         </>
