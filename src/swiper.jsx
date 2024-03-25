@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
 
@@ -36,13 +36,27 @@ export function Swiper({ children, fetchMore }) {
 
     const index = wrap(0, children.length, page);
 
-    if (page === children.length - 1) {
-        fetchMore();
-    }
 
     const paginate = (newDirection) => {
         setPage([page + newDirection, newDirection]);
+        if (page === children.length - 1) {
+            fetchMore();
+        }
     };
+    function handleKey(evt) {
+        if (evt.key === 'ArrowRight') {
+            paginate(1);
+        } else if (evt.key === 'ArrowLeft') {
+            paginate(-1);
+        }
+    }
+    // scroll with arrow keys
+    useEffect(() => {
+        window.addEventListener('keydown', handleKey);
+        return () => {
+            window.removeEventListener('keydown', handleKey);
+        };
+    }, [page]);
 
     return (
         <>
