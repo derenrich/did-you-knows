@@ -65,7 +65,7 @@ export function Swiper({ children, fetchMore, slugs }) {
         return () => {
             window.removeEventListener('keydown', handleKey);
         };
-    }, []);
+    }, [page, children]);
 
     return (
         <>
