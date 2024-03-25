@@ -38,12 +38,16 @@ export function Swiper({ children, fetchMore }) {
 
 
     const paginate = (newDirection) => {
-        setPage([page + newDirection, newDirection]);
-        if (page === children.length - 1) {
-            fetchMore();
-        }
+        setPage((pageState) => {
+            return [pageState[0] + newDirection, newDirection];
+        });
     };
-    function handleKey(evt) {
+
+    if (index === children.length - 1) {
+        fetchMore();
+    }
+
+    const handleKey = (evt) => {
         if (evt.key === 'ArrowRight') {
             paginate(1);
         } else if (evt.key === 'ArrowLeft') {
@@ -56,7 +60,7 @@ export function Swiper({ children, fetchMore }) {
         return () => {
             window.removeEventListener('keydown', handleKey);
         };
-    }, [page]);
+    }, []);
 
     return (
         <>
