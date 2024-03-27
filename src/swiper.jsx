@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Center, Image, Square, Circle, Box, Text, Flex, Spacer, AbsoluteCenter, HStack, Heading } from '@chakra-ui/react'
-
+import { Show, Hide } from '@chakra-ui/react'
 
 const variants = {
 
@@ -94,6 +94,7 @@ export function Swiper({ children, fetchMore, slugs, page_ids, images }) {
                     key={page}
                     custom={direction}
                     variants={variants}
+                    mode="wait"
                     initial="enter"
                     animate="center"
                     exit="exit"
@@ -117,25 +118,28 @@ export function Swiper({ children, fetchMore, slugs, page_ids, images }) {
                     {children[page]}
                 </motion.div>
 
-                <motion.div
-                    variants={imageVariants}
-                    key={images[page_ids[page]]}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    transition={{
-                        opacity: { duration: 0.2 }
-                    }}
-                    style={{
-                        position: "absolute",
-                        left: "0px",
-                        top: "0px"
-                    }}
+                <Show breakpoint="(orientation: landscape)"
                 >
-                    {images[page_ids[page]] ?
-                        <Box filter="drop-shadow(5px 5px 5px)" display={["none", "none", "block"]} key={images[page_ids[page]]} position="absolute" top="10em" left="calc(35em + 10vh)" width="400px" transform={`rotate(${randomAngle()}deg)`}><Image src={images[page_ids[page]]} alt="random" width="400px" /> </Box>
-                        : null}
-                </motion.div>
+                    <motion.div
+                        variants={imageVariants}
+                        key={images[page_ids[page]]}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        transition={{
+                            opacity: { duration: 0.2 }
+                        }}
+                        style={{
+                            position: "absolute",
+                            left: "0px",
+                            top: "0px"
+                        }}
+                    >
+                        {images[page_ids[page]] ?
+                            <Box filter="drop-shadow(5px 5px 5px)" display={["none", "none", "block"]} key={images[page_ids[page]]} position="absolute" top="10em" left="calc(35em + 10vh)" width="400px" transform={`rotate(${randomAngle()}deg)`}><Image src={images[page_ids[page]]} alt="random" width="400px" /> </Box>
+                            : null}
+                    </motion.div>
+                </Show>
             </AnimatePresence>
         </>
     );

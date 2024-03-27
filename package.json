@@ -9,6 +9,7 @@
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.2",
+    "@mui/icons-material": "^5.15.14",
     "framer-motion": "^11.0.20",
     "popmotion": "^11.0.5",
     "random-js": "^2.1.0",

@@ -1,10 +1,6 @@
 import { createRoot } from "react-dom/client";
 import React, { useState, useEffect } from "react";
 import { Center, Image as CImage, Square, Circle, Box, Text, Flex, Spacer, AbsoluteCenter, HStack, Heading } from '@chakra-ui/react'
-import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
-import { IconButton } from '@chakra-ui/react'
-import { motion, AnimatePresence } from "framer-motion";
-import { wrap } from "popmotion";
 import { HookCard } from './hook_card.jsx';
 import { theme, LogoBox } from "./styles.js"
 import { ChakraProvider } from '@chakra-ui/react'
@@ -19,13 +15,18 @@ function slugify(slug) {
     return slug.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
 }
 
-function preloadImages(imageUrls) {
-    imageUrls.forEach(imageUrl => {
+async function preloadImages(imageUrls) {
+    // stagger the image downloads a little
+    const PRELOAD_PAUSE_MS = 100;
+    for (imageUrl of imageUrls) {
         if (imageUrl !== null && imageUrl !== undefined) {
-            let img = new Image();
-            img.src = imageUrl;
+            await new Promise((resolve) => {
+                let img = new Image();
+                img.src = imageUrl;
+                setTimeout(() => resolve(imageUrl), PRELOAD_PAUSE_MS);
+            });
         }
-    });
+    }
 }
 
 async function getHooks(setImages) {

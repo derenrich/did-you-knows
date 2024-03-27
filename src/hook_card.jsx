@@ -1,5 +1,9 @@
 import { Box, Box, Heading, Button, Image } from '@chakra-ui/react'
 import { Random, MersenneTwister19937 } from "random-js";
+import { IconButton } from '@chakra-ui/react';
+import { useState } from "react";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 function prettyTitle(title) {
@@ -34,7 +38,18 @@ function randomBackgroundGradient(hook) {
     return `linear-gradient(${angle}deg, rgb(${r1}, ${g1}, ${b1}), rgb(${r2}, ${g2}, ${b2}))`;
 }
 
+
+
 export function HookCard({ hook, title }) {
+
+    const [liked, setLiked] = useState(false);
+
+
+    async function like(hook_id) {
+        setLiked((l) => ~l);
+    }
+
+
     let url = "https://en.wikipedia.org/wiki/" + title;
     return (
         <>
@@ -50,29 +65,11 @@ export function HookCard({ hook, title }) {
                             Learn more about <br />
                             <strong>{prettyTitle(title)}</strong>
                         </a>
+
                     </Button>
-                    {/*
-                    <Box marginLeft="auto" marginTop={"auto"} width="fit-content">
-                        <Box p='1em' m='1em' borderRadius='10px' bgColor='wikimedia.500' opacity={0.8}>
-                            <IconButton icon={<StarIcon />} colorScheme="green" aria-label="Like" mr={2} />
-                            <IconButton icon={<LinkIcon />} colorScheme="blue" aria-label="Share" />
-                        </Box>
-                    </Box>
-                    */}
+                    <IconButton onClick={like} m='1em' opacity="0.8" aria-label='Favorite' icon={liked ? <FavoriteIcon /> : <FavoriteBorderIcon />} />
                 </Box>
             </Box >
-        </>
-    );
-}
-
-
-export function HookCard2({ hook }) {
-    return (
-        <>
-            <Box bgGradient='linear(to-r, green.200, pink.500)' >
-                {hook}
-
-            </Box>
         </>
     );
 }
