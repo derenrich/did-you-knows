@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import React, { useState, useEffect } from "react";
-import { Center, Image, Square, Circle, Box, Text, Flex, Spacer, AbsoluteCenter, HStack, Heading } from '@chakra-ui/react'
+import { Center, Image as CImage, Square, Circle, Box, Text, Flex, Spacer, AbsoluteCenter, HStack, Heading } from '@chakra-ui/react'
 import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 import { IconButton } from '@chakra-ui/react'
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,30 +11,66 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { Swiper } from './swiper.jsx'
 
 
+//const REST_API_URL = 'http://localhost:8000/api';
+const REST_API_URL = "/api";
+
 function slugify(slug) {
     //replace non-alphanumeric characters with hyphens and lowercase
     return slug.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
 }
 
-//const REST_API_URL = 'http://localhost:8000/api';
-const REST_API_URL = "/api";
-
-async function getHooks() {
-    let hooks = await fetch(`${REST_API_URL}/random_hooks/10`);
-    return hooks.json();
+function preloadImages(imageUrls) {
+    imageUrls.forEach(imageUrl => {
+        if (imageUrl !== null && imageUrl !== undefined) {
+            let img = new Image();
+            img.src = imageUrl;
+        }
+    });
 }
 
-async function getHook(id) {
+async function getHooks(setImages) {
+    let hooks = await fetch(`${REST_API_URL}/random_hooks/10`);
+    hooks = await hooks.json();
+    getImages(hooks.map(hook => hook.page_id)).then(images => {
+        setImages((existingImages) => {
+            return { ...existingImages, ...images };
+        });
+    });
+    return hooks;
+}
+
+async function getHook(id, setImages) {
     let hook = await fetch(`${REST_API_URL}/hook/${id}`);
-    return hook.json();
+    hook = await hook.json();
+
+    getImages([hook].map(hook => hook.page_id)).then(images => {
+        setImages((existingImages) => {
+            return { ...existingImages, ...images };
+        });
+    });
+
+    return hook;
+}
+
+async function getImages(page_ids) {
+    const response = await fetch(`${REST_API_URL}/images`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(page_ids)
+    });
+    const images = await response.json();
+    preloadImages(Object.values(images))
+    return images;
 }
 
 function App() {
     const [hooks, setHooks] = useState([]);
+    const [images, setImages] = useState({});
 
     async function getMoreHooks() {
-        console.log("getting...");
-        let moreHooks = await getHooks();
+        let moreHooks = await getHooks(setImages);
         setHooks((hooks) => {
             return [...hooks, ...moreHooks];
         });
@@ -48,19 +84,20 @@ function App() {
             const parsedHash = hash.split('/', 2);
             if (parsedHash.length === 2) {
                 const id = parseInt(parsedHash[0]);
-                getHook(id).then(hook => {
+                getHook(id, setImages).then(hook => {
                     setHooks([hook]);
                     getMoreHooks();
                 });
 
             }
         } else {
-            getHooks().then(hooks => {
-                setHooks(hooks);
+            getHooks(setImages).then(hooks => {
+                setHooks(hooks,);
             });
         }
     }, []);
 
+    const page_ids = hooks.map(hook => hook.page_id);
     const slugs = hooks.map(hook => `${hook.id}/${slugify(hook.slug)}`);
     const cards = hooks.map(hook => <HookCard key={hook.id} title={hook.title} hook={hook.hook_text} />);
 
@@ -68,7 +105,7 @@ function App() {
         <React.Fragment>
             <ChakraProvider theme={theme}>
                 <LogoBox>
-                    <Image width="100%" src="https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg" alt="Wikipedia logo" />
+                    <CImage width="100%" src="https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg" alt="Wikipedia logo" />
                 </LogoBox>
                 <Center bg='#eaecf0' h={['60px', '70px', '100px']} color='black' opacity="90%">
                     <Heading variant="title">Did you know...?</Heading>
@@ -76,7 +113,7 @@ function App() {
 
                 <Box display="flex" justifyContent="center" m={0} p={0}>
                     <Box position="relative" m={0} p={0}>
-                        <Swiper fetchMore={getMoreHooks} slugs={slugs} children={cards} />
+                        <Swiper fetchMore={getMoreHooks} slugs={slugs} children={cards} page_ids={page_ids} images={images} />
                     </Box>
                 </Box>
             </ChakraProvider>

@@ -50,15 +50,16 @@ def read_hook(number: int, session: DbSession):
     return crud.get_random_hooks(session, number)
 
 
-@app.post("/api/images", response_model=dict[int, str])
+@app.post("/api/images", response_model=dict[int, str | None])
 async def get_images(page_ids: list[int], client: HttpClient):
     if not page_ids:
         return {}
     page_ids_param = "|".join(map(str, page_ids))
-    url = f"https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&pageids={page_ids_param}&pithumbsize=1000"
+    url = f"https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&pageids={page_ids_param}&pithumbsize=400"
     r: httpx.Response = await client.get(url)
     data: dict = r.raise_for_status().json()
     pages = data.get("query", {}).get("pages", {})
+
     return {page_id: blob.get("thumbnail", {}).get("source") for (page_id, blob) in pages.items()}
 
 

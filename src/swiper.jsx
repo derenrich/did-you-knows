@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Center, Image, Square, Circle, Box, Text, Flex, Spacer, AbsoluteCenter, HStack, Heading } from '@chakra-ui/react'
+
 
 const variants = {
 
@@ -25,12 +27,16 @@ const variants = {
     }
 };
 
+function randomAngle() {
+    return Math.floor(Math.random() * 20) - 10;
+}
+
 const swipeConfidenceThreshold = 8000;
 const swipePower = (offset, velocity) => {
     return Math.abs(offset) * velocity;
 };
 
-export function Swiper({ children, fetchMore, slugs }) {
+export function Swiper({ children, fetchMore, slugs, page_ids, images }) {
     const [[page, direction], setPage] = useState([0, 0]);
 
     const paginate = (newDirection) => {
@@ -95,7 +101,12 @@ export function Swiper({ children, fetchMore, slugs }) {
                 >
                     {children[page]}
                 </motion.div>
+
+
             </AnimatePresence>
+            {images[page_ids[page]] ?
+                <Box display={["none", "none", "block"]} key={images[page_ids[page]]} position="absolute" top="10em" left="calc(35em + 10vh)" width="400px" transform={`rotate(${randomAngle()}deg)`}><Image src={images[page_ids[page]]} alt="random" width="400px" /> </Box>
+                : null}
         </>
     );
 };

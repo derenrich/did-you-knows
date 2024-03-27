@@ -1,6 +1,7 @@
 # Did You Knows
 Web app that shows interesting "did you know" facts from enwiki
 
+Analytics at  https://toolviews.toolforge.org/api/v1/tool/did-you-knows/day/$DATE
 
 # Running
 
