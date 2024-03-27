@@ -27,6 +27,21 @@ const variants = {
     }
 };
 
+const imageVariants = {
+    enter: {
+        filter: "blur(10px)",
+        opacity: 0
+    },
+    center: {
+        filter: "blur(0px)",
+        opacity: 1
+    },
+    exit: {
+        filter: "blur(10px)",
+        opacity: 0
+    }
+};
+
 function randomAngle() {
     return Math.floor(Math.random() * 20) - 10;
 }
@@ -102,11 +117,26 @@ export function Swiper({ children, fetchMore, slugs, page_ids, images }) {
                     {children[page]}
                 </motion.div>
 
-
+                <motion.div
+                    variants={imageVariants}
+                    key={images[page_ids[page]]}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{
+                        opacity: { duration: 0.2 }
+                    }}
+                    style={{
+                        position: "absolute",
+                        left: "0px",
+                        top: "0px"
+                    }}
+                >
+                    {images[page_ids[page]] ?
+                        <Box filter="drop-shadow(5px 5px 5px)" display={["none", "none", "block"]} key={images[page_ids[page]]} position="absolute" top="10em" left="calc(35em + 10vh)" width="400px" transform={`rotate(${randomAngle()}deg)`}><Image src={images[page_ids[page]]} alt="random" width="400px" /> </Box>
+                        : null}
+                </motion.div>
             </AnimatePresence>
-            {images[page_ids[page]] ?
-                <Box display={["none", "none", "block"]} key={images[page_ids[page]]} position="absolute" top="10em" left="calc(35em + 10vh)" width="400px" transform={`rotate(${randomAngle()}deg)`}><Image src={images[page_ids[page]]} alt="random" width="400px" /> </Box>
-                : null}
         </>
     );
 };
