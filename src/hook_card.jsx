@@ -59,7 +59,7 @@ export function HookCard({ hook, title }) {
                 </Heading>
                 <Box display="flex" flexDirection="row" justifyContent="space-between" >
                     <Button onClick={() => { location.href = url; }} p='1em' m='1em' bgColor='wikimedia.500' opacity={0.8} borderRadius='10px'>
-                        <Image position="relative" left="-2em" width="100%" src="https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg" alt="Wikipedia logo" />
+                        <Image position="relative" left="-2em" width="6em" src="https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg" alt="Wikipedia logo" />
 
                         <a display="block" href={url}>
                             Learn more about <br />

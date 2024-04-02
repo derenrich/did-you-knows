@@ -1,4 +1,6 @@
+
 *~
+*.secret
 *.pyc
 keys.sh
 node_modules
