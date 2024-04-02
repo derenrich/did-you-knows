@@ -58,9 +58,7 @@ app.add_middleware(
 
 @app.get("/login/wikimedia")
 async def login_wmf(request: Request):
-    redirect_uri = request.url_for('auth_via_wmf')
-    print(redirect_uri)
-    return await oauth.wikimedia.authorize_redirect(request, redirect_uri)
+    return await oauth.wikimedia.authorize_redirect(request, "https://did-you-knows.toolforge.org/login/auth_wikimedia")
 
 
 @app.get("/login/auth_wikimedia")
