@@ -10,8 +10,8 @@
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), -1px 1px 1px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), -1px 1px 1px rgba(0, 0, 0, 0.2);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), -1px 1px 1px rgba(0, 0, 0, 0.2);
-    -moz-border-radius: 0 0 0 5px;
-    border-radius: 0 0 0 5px;
+    -moz-border-radius: 0 0 0 10px;
+    border-radius: 0 0 0 10px;
     /* Firefox 3.0 damage limitation */
     display: block;
     width: 0;
@@ -19,10 +19,10 @@
 
 div.card-clickable-region {
     position: absolute;
-    top: 2em;
+    top: 0em;
     right: 2em;
     width: 4em;
-    height: 4em;
+    height: 6em;
     cursor: pointer;
     z-index: 400;
 }
