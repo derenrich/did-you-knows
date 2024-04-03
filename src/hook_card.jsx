@@ -7,7 +7,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 function prettyTitle(title) {
-    const MAX_TITLE_LENGTH = 40;
+    const MAX_TITLE_LENGTH = 35;
     const prettyTitle = title.replace(/_/g, " ");
     if (prettyTitle.length > MAX_TITLE_LENGTH) {
         return prettyTitle.substring(0, MAX_TITLE_LENGTH) + "...";
