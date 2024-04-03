@@ -53,7 +53,7 @@ export function HookCard({ hook, title }) {
     let url = "https://en.wikipedia.org/wiki/" + title;
     return (
         <>
-            <Box className="note" position="relative" display="flex" flexDirection="column" justifyContent="space-between" p={[1, 3, 8]} m={[0, 0, 8]} borderRadius='10px' width='35em ' minH='80vh' overflow='hidden' bgGradient={randomBackgroundGradient(hook)} >
+            <Box className="note" position="relative" display="flex" flexDirection="column" justifyContent="space-between" p={[1, 3, 8]} m={[0, 0, 8]} borderRadius='10px 0px 10px 10px' width='35em ' minH='80vh' overflow='hidden' bgGradient={randomBackgroundGradient(hook)} >
                 <Heading pt={'0.5em'} fontSize={["x-large", "xx-large", "xxx-large"]}>
                     {hook}
                 </Heading>
