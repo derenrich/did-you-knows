@@ -1,0 +1,28 @@
+.note:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-width: 0 2em 2em 0;
+    border-style: solid;
+    border-color: #fff #fff transparent transparent;
+    background: #4242424f;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), -1px 1px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), -1px 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), -1px 1px 1px rgba(0, 0, 0, 0.2);
+    -moz-border-radius: 0 0 0 5px;
+    border-radius: 0 0 0 5px;
+    /* Firefox 3.0 damage limitation */
+    display: block;
+    width: 0;
+}
+
+div.card-clickable-region {
+    position: absolute;
+    top: 2em;
+    right: 2em;
+    width: 4em;
+    height: 4em;
+    cursor: pointer;
+    z-index: 400;
+}

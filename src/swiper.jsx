@@ -115,6 +115,8 @@ export function Swiper({ children, fetchMore, slugs, page_ids, images }) {
                         }
                     }}
                 >
+                    <div position="absolute" className="card-clickable-region" onClick={() => paginate(1)}>
+                    </div>
                     {children[page]}
                 </motion.div>
 
@@ -136,7 +138,9 @@ export function Swiper({ children, fetchMore, slugs, page_ids, images }) {
                         }}
                     >
                         {images[page_ids[page]] ?
-                            <Box filter="drop-shadow(5px 5px 5px)" display={["none", "none", "block"]} key={images[page_ids[page]]} position="absolute" top="10em" left="calc(35em + 10vh)" width="400px" transform={`rotate(${randomAngle()}deg)`}><Image src={images[page_ids[page]]} alt="random" width="400px" /> </Box>
+                            <Box filter="drop-shadow(5px 5px 5px)" display={["none", "none", "block"]}
+                                key={images[page_ids[page]]} position="absolute" top="10em" left="calc(35em + 10vh)"
+                                width="400px" transform={`rotate(${randomAngle()}deg)`}><Image src={images[page_ids[page]]} alt="random" width="400px" /> </Box>
                             : null}
                     </motion.div>
                 </Show>

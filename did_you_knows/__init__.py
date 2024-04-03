@@ -31,7 +31,7 @@ async def get_http_client():
 HttpClient = Annotated[httpx.AsyncClient, Depends(get_http_client)]
 
 config = Config(env_prefix='DYK_')
-SESSION_SECRET = config('SESSION_SECRET', cast=Secret, default="DEFAULT_SECRET")
+SESSION_SECRET = config('SESSION_SECRET', cast=Secret)
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET)
