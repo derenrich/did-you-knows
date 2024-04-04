@@ -1,6 +1,7 @@
 from datetime import date
 from typing import Annotated
 from importlib import resources as impresources
+from html import escape
 import pathlib
 from fastapi import Request, Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -119,16 +120,14 @@ DIST_FOLDER = pathlib.Path("dist")
 def get_index(description: str, image: str | None) -> str:
     with DIST_FOLDER.joinpath("index.html").open('r') as f:
         # sanitize
-        if '"' in description:
-            description = ""
+        description = escape(description)
         index_string = f.read()
 
         index_string = index_string.replace("{prop1}", "og:description").replace("{value1}", description)
 
-        if image and '"' in image:
-            image = None
         if image:
-            index_string = index_string.replace("{prop2}", "og:image").replace("{value1}", image)
+            image = escape(image)
+            index_string = index_string.replace("{prop2}", "og:image").replace("{value2}", image)
 
         return index_string
 
@@ -140,7 +139,7 @@ async def root():
 
 
 @app.get("/{hook_id}/{hook_slug}")
-async def root_with_hook(hook_id: int, hook_slug: str, session: DbSession):
+async def root_with_hook(hook_id: int, hook_slug: str, session: DbSession, client: HttpClient):
     hook = crud.get_hook(session, hook_id)
 
     if not hook:
@@ -149,7 +148,10 @@ async def root_with_hook(hook_id: int, hook_slug: str, session: DbSession):
         return RedirectResponse(url=url)
 
     with DIST_FOLDER.joinpath("index.html").open('r') as f:
-        return HTMLResponse(content=get_index(hook.hook_text, hook.image), status_code=200)
+
+        images = await get_images([hook.page_id], client)
+        image_url = hook.image or images.get(str(hook.page_id))
+        return HTMLResponse(content=get_index(hook.hook_text, image_url), status_code=200)
 
 
 app.mount("/", StaticFiles(directory=DIST_FOLDER), name="dist")
