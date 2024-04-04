@@ -30,7 +30,7 @@ async function preloadImages(imageUrls) {
 }
 
 async function getHooks(setImages) {
-    let hooks = await fetch(`${REST_API_URL}/random_hooks/20`);
+    let hooks = await fetch(`${REST_API_URL}/random_hooks/50`);
     hooks = await hooks.json();
     getImages(hooks.map(hook => hook.page_id)).then(images => {
         setImages((existingImages) => {
