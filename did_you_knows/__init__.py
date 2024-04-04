@@ -4,7 +4,7 @@ from importlib import resources as impresources
 import pathlib
 from fastapi import Request, Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from sqlmodel import Session
 from . import database, crud
@@ -58,6 +58,7 @@ app.add_middleware(
 
 @app.get("/login/wikimedia")
 async def login_wmf(request: Request):
+    # TODO: add redirect GET param to redirect url
     return await oauth.wikimedia.authorize_redirect(request, "https://did-you-knows.toolforge.org/login/auth_wikimedia")
 
 
@@ -115,9 +116,40 @@ STATIC_FOLDER = impresources.files("did_you_knows").joinpath("static")
 DIST_FOLDER = pathlib.Path("dist")
 
 
+def get_index(description: str, image: str | None) -> str:
+    with DIST_FOLDER.joinpath("index.html").open('r') as f:
+        # sanitize
+        if '"' in description:
+            description = ""
+        index_string = f.read()
+
+        index_string = index_string.replace("{prop1}", "og:description").replace("{value1}", description)
+
+        if image and '"' in image:
+            image = None
+        if image:
+            index_string = index_string.replace("{prop2}", "og:image").replace("{value1}", image)
+
+        return index_string
+
+
 @app.get("/")
 async def root():
     with DIST_FOLDER.joinpath("index.html").open('r') as f:
-        return HTMLResponse(content=f.read(), status_code=200)
+        return HTMLResponse(content=get_index("Interesting facts from Wikipedia!", None), status_code=200)
+
+
+@app.get("/{hook_id}/{hook_slug}")
+async def root_with_hook(hook_id: int, hook_slug: str, session: DbSession):
+    hook = crud.get_hook(session, hook_id)
+
+    if not hook:
+        # redirect to root()
+        url = app.url_path_for("root")
+        return RedirectResponse(url=url)
+
+    with DIST_FOLDER.joinpath("index.html").open('r') as f:
+        return HTMLResponse(content=get_index(hook.hook_text, hook.image), status_code=200)
+
 
 app.mount("/", StaticFiles(directory=DIST_FOLDER), name="dist")

@@ -70,7 +70,8 @@ export function Swiper({ children, fetchMore, slugs, page_ids, images }) {
     }
 
     if (slugs.length > 0) {
-        window.location.replace('#' + slugs[page]);
+        window.history.replaceState(null, null, "/" + slugs[page]);
+        //window.location.replace("/" + slugs[page]);
     }
     const handleKey = (evt) => {
         if (evt.key === 'ArrowRight') {

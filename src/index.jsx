@@ -18,7 +18,7 @@ function slugify(slug) {
 async function preloadImages(imageUrls) {
     // stagger the image downloads a little
     const PRELOAD_PAUSE_MS = 100;
-    for (imageUrl of imageUrls) {
+    for (let imageUrl of imageUrls) {
         if (imageUrl !== null && imageUrl !== undefined) {
             await new Promise((resolve) => {
                 let img = new Image();
@@ -80,8 +80,8 @@ function App() {
     useEffect(() => {
 
         // check location hash to see if we need to start at a specific hook
-        if (window.location.hash) {
-            const hash = window.location.hash.slice(1);
+        if (window.location.pathname) {
+            const hash = window.location.pathname.slice(1);
             const parsedHash = hash.split('/', 2);
             if (parsedHash.length === 2) {
                 const id = parseInt(parsedHash[0]);
@@ -89,13 +89,13 @@ function App() {
                     setHooks([hook]);
                     getMoreHooks();
                 });
-
+                // we've finished loading hooks
+                return;
             }
-        } else {
-            getHooks(setImages).then(hooks => {
-                setHooks(hooks,);
-            });
         }
+        getHooks(setImages).then(hooks => {
+            setHooks(hooks,);
+        });
     }, []);
 
     const page_ids = hooks.map(hook => hook.page_id);

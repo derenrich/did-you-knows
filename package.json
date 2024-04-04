@@ -19,8 +19,8 @@
   },
   "source": "src/index.html",
   "scripts": {
-    "start": "parcel",
-    "build": "parcel build"
+    "start": "parcel --public-url /",
+    "build": "parcel build --public-url /"
   },
   "browserslist": {
     "production": [
