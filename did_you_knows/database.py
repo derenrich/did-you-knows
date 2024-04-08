@@ -21,9 +21,7 @@ if os.environ["TOOL_TOOLSDB_USER"]:
     mysql_password = os.environ["TOOL_TOOLSDB_PASSWORD"]
     mysql_host = "tools.db.svc.wikimedia.cloud"
     database_name = "s55747__dyk"
-    conn_string = (
-        f"mysql://{mysql_username}:{mysql_password}@{mysql_host}/{database_name}"
-    )
+    conn_string = f"mysql+pymysql://{mysql_username}:{mysql_password}@{mysql_host}/{database_name}"
     engine = create_engine(conn_string)
 else:
     sqlite_file_name = "./dyk.db"
