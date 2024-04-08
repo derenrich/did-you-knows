@@ -16,7 +16,7 @@ class Hook(HookBase, table=True):
     id: int = Field(primary_key=True)
 
 
-if os.environ["TOOL_TOOLSDB_USER"]:
+if os.environ.get("TOOL_TOOLSDB_USER"):
     mysql_username = os.environ["TOOL_TOOLSDB_USER"]
     mysql_password = os.environ["TOOL_TOOLSDB_PASSWORD"]
     mysql_host = "tools.db.svc.wikimedia.cloud"

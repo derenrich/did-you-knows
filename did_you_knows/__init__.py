@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.middleware.sessions import SessionMiddleware
+from .smart_session import MutateDetectSessionMiddleware
 from starlette.config import Config
 from starlette.datastructures import Secret
 from authlib.integrations.starlette_client import OAuth
@@ -13,7 +13,7 @@ config = Config(env_prefix="DYK_")
 SESSION_SECRET = config("SESSION_SECRET", cast=Secret)
 
 app = FastAPI()
-app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET)
+app.add_middleware(MutateDetectSessionMiddleware, secret_key=SESSION_SECRET)
 
 oauth = OAuth(config)
 
