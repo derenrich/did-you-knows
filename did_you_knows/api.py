@@ -53,3 +53,8 @@ async def get_images(page_ids: list[int], client: HttpClient):
         page_id: blob.get("thumbnail", {}).get("source")
         for (page_id, blob) in pages.items()
     }
+
+
+@api_router.post("/init_db")
+async def init_db():
+    database.create_db_and_tables()

@@ -1,4 +1,5 @@
 from sqlmodel import Field, SQLModel, create_engine, Session
+import os
 
 
 class HookBase(SQLModel):
@@ -15,13 +16,20 @@ class Hook(HookBase, table=True):
     id: int = Field(primary_key=True)
 
 
-sqlite_file_name = "./dyk.db"
+if os.environ["TOOL_TOOLSDB_USER"]:
+    mysql_username = os.environ["TOOL_TOOLSDB_USER"]
+    mysql_password = os.environ["TOOL_TOOLSDB_PASSWORD"]
+    mysql_host = "tools.db.svc.wikimedia.cloud"
+    database_name = "s55747__dyk"
+    conn_string = (
+        f"mysql://{mysql_username}:{mysql_password}@{mysql_host}/{database_name}"
+    )
 
-
-sqlite_url = f"sqlite:///{sqlite_file_name}"
-
-connect_args = {"check_same_thread": False}
-engine = create_engine(sqlite_url, echo=True, connect_args=connect_args)
+else:
+    sqlite_file_name = "./dyk.db"
+    sqlite_url = f"sqlite:///{sqlite_file_name}"
+    connect_args = {"check_same_thread": False}
+    engine = create_engine(sqlite_url, echo=True, connect_args=connect_args)
 
 
 def create_db_and_tables():
