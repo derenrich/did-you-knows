@@ -63,7 +63,7 @@ async def auth_via_wmf(request: Request, client: HttpClient):
 
         d = await client.get(f"{META_WIKI_OAUTH}/identify", auth=auth)
         d.raise_for_status()
-        jwt_payload = jwt.decode(d.content)
+        jwt_payload = jwt.decode(d.content, options={"verify_signature": False})
         request.session["wikimedia"] = jwt_payload
 
         # assuming it's all fine take them to root
