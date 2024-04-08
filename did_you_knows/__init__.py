@@ -1,10 +1,12 @@
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from .smart_session import MutateDetectSessionMiddleware
 from starlette.config import Config
 from starlette.datastructures import Secret
 from authlib.integrations.starlette_client import OAuth
 from authlib.integrations.httpx_client import OAuth1Auth
+import jwt
 from .static import static_router, mount_static
 from .api import api_router
 from .dependencies import HttpClient
@@ -48,7 +50,7 @@ async def login_wmf(request: Request):
 
 
 @app.get("/login/auth_wikimedia")
-async def auth_via_wmf(request: Request, client: HttpClient) -> bytes:
+async def auth_via_wmf(request: Request, client: HttpClient):
     token = await oauth.wikimedia.authorize_access_token(request)
 
     if token:
@@ -61,7 +63,12 @@ async def auth_via_wmf(request: Request, client: HttpClient) -> bytes:
 
         d = await client.get(f"{META_WIKI_OAUTH}/identify", auth=auth)
         d.raise_for_status()
-        return d.content
+        jwt_payload = jwt.decode(d.content)
+        request.session["wikimedia"] = jwt_payload
+
+        # assuming it's all fine take them to root
+        url = static_router.url_path_for("root")
+        return RedirectResponse(url=url)
 
     raise HTTPException(401, "could not get access token - " + str(token))
 
