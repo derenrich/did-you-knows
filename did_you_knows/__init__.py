@@ -18,6 +18,7 @@ app.add_middleware(MutateDetectSessionMiddleware, secret_key=SESSION_SECRET)
 oauth = OAuth(config)
 
 META_WIKI_OAUTH = "https://meta.wikimedia.org/w/index.php?title=Special:OAuth"
+META_WIKI_USERINFO = "https://meta.wikimedia.org/w/api.php?action=query&meta=userinfo&uiprop=rights&format=json"
 
 oauth.register(
     name="wikimedia",
@@ -59,9 +60,7 @@ async def auth_via_wmf(request: Request, client: HttpClient) -> bytes:
             token_secret=token.get("oauth_token_secret"),
         )
 
-        d = await client.get(
-            "https://en.wikipedia.org/wiki/Special:OAuth/identify", auth=auth
-        )
+        d = await client.get(META_WIKI_USERINFO, auth=auth)
         return d.content
 
     raise HTTPException(401, "could not get access token - " + str(token))
