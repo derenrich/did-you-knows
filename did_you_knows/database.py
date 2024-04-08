@@ -24,7 +24,7 @@ if os.environ["TOOL_TOOLSDB_USER"]:
     conn_string = (
         f"mysql://{mysql_username}:{mysql_password}@{mysql_host}/{database_name}"
     )
-
+    engine = create_engine(conn_string)
 else:
     sqlite_file_name = "./dyk.db"
     sqlite_url = f"sqlite:///{sqlite_file_name}"
