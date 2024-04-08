@@ -54,9 +54,7 @@ async def root_with_hook(
 
     images = await get_images([hook.page_id], client)
     image_url = hook.image or images.get(str(hook.page_id))
-    return HTMLResponse(
-        content=get_index(hook.hook_text, image_url), status_code=200
-    )
+    return HTMLResponse(content=get_index(hook.hook_text, image_url), status_code=200)
 
 
 def mount_static(app: FastAPI) -> None:
