@@ -54,6 +54,7 @@ async def auth_via_wmf(request: Request, client: HttpClient) -> bytes:
     if token:
         auth = OAuth1Auth(
             client_id=config("WIKIMEDIA_CLIENT_ID"),
+            client_secret=config("DYK_WIKIMEDIA_CLIENT_SECRET"),
             token=token.get("oauth_token"),
             token_secret=token.get("oauth_token_secret"),
         )
@@ -63,7 +64,7 @@ async def auth_via_wmf(request: Request, client: HttpClient) -> bytes:
         )
         return d.content
 
-    raise HTTPException(401, "could not get access token")
+    raise HTTPException(401, "could not get access token - " + str(token))
 
 
 @app.get("/login/user")
