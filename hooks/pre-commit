@@ -22,3 +22,5 @@ poetry run ruff check .
 poetry run mypy .
 
 poetry export  --format=requirements.txt > requirements.txt
+
+git diff-index --exit-code $against requirements.txt
