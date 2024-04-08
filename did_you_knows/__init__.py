@@ -54,7 +54,7 @@ async def auth_via_wmf(request: Request, client: HttpClient) -> bytes:
     if token:
         auth = OAuth1Auth(
             client_id=config("WIKIMEDIA_CLIENT_ID"),
-            client_secret=config("DYK_WIKIMEDIA_CLIENT_SECRET"),
+            client_secret=config("WIKIMEDIA_CLIENT_SECRET"),
             token=token.get("oauth_token"),
             token_secret=token.get("oauth_token_secret"),
         )
