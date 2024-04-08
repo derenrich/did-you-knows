@@ -1,13 +1,13 @@
 from typing import Sequence
 from .database import engine, Hook
-from sqlmodel import Field, SQLModel, create_engine, Session, select, func
+from sqlmodel import Session, select, func
 
 
 def get_hook(session: Session, hook_id: int) -> Hook | None:
     return session.get(Hook, hook_id)
 
 
-def get_random_hooks(session: Session, n=1) -> Sequence[int]:
+def get_random_hooks(session: Session, n=1) -> Sequence[Hook]:
     return session.exec(select(Hook).order_by(func.random()).limit(n)).all()
 
 

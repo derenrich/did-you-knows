@@ -33,12 +33,12 @@ if __name__ == "__main__":
 
     import glob
     import json
+
     with Session(engine) as session:
         for hook_fname in glob.glob("hooks_*.json"):
             with open(hook_fname) as f:
                 hooks = json.load(f)
                 for hook in hooks:
-
                     rev_id = int(hook.pop("rev_id"))
                     page_id = int(hook.pop("page_id"))
                     wiki = hook.pop("wiki")
@@ -52,6 +52,7 @@ if __name__ == "__main__":
                         rev_id=rev_id,
                         title=title,
                         slug=slug,
-                        hook_text=hook_text)
+                        hook_text=hook_text,
+                    )
                     session.add(hook_row)
             session.commit()
