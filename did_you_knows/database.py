@@ -22,7 +22,7 @@ if os.environ.get("TOOL_TOOLSDB_USER"):
     mysql_host = "tools.db.svc.wikimedia.cloud"
     database_name = "s55747__dyk"
     conn_string = f"mysql+pymysql://{mysql_username}:{mysql_password}@{mysql_host}/{database_name}"
-    engine = create_engine(conn_string, connect_timeout=31536000)
+    engine = create_engine(conn_string, connect_args=dict(connect_timeout=31536000))
 else:
     sqlite_file_name = "./dyk.db"
     sqlite_url = f"sqlite:///{sqlite_file_name}"
